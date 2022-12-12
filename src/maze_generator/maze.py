@@ -1,4 +1,4 @@
-"""TODO: fill."""
+"""Module that includes the Maze and Cell classes."""
 import io
 from typing import List, Tuple
 

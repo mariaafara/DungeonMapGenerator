@@ -13,7 +13,6 @@ The Maze Generator API Service is built with FastAPI.
 
 FastAPI is a cutting-edge, quick web framework for creating APIs.
 
-
 ## Run locally
 
 ### Install dependencies
@@ -47,6 +46,7 @@ docker build -t maze_generator_image .
 ### Run a container
 
 [//]: # (If you want to specify a port mapping: <host_port>:<container_port>)
+
 ```
 docker run -d -e PORT=8080 -p 8092:8080 maze_generator_image
 ```
@@ -64,9 +64,27 @@ docker run -p 8080:8080 maze_generator_image
 Access: http://0.0.0.0:8000/docs or http://0.0.0.0:8092/docs if you run the server providing the port 8092 for example.
 
 And you can use `curl` command to query the API and save the image:
+
 ```bash
 curl -X 'POST' \
   'http://localhost:8092/generate_maze?maze_size=4' \
   -H 'accept: application/json' \
   > output.png
 ```
+
+
+----
+
+#### Evaluating the difficulty of a maze:
+
+We can evaluate the difficulty of a maze using the following metrics:
+
+- Completion time of a maze
+- The number of Forks along the correct path:
+    - If the perfect path only has one branch, then you only need to be lucky once.
+- The number of Loops:
+  - Path loops can make a maze more difficult because it is simple to realize that you are on the
+    wrong road when you reach a dead end, but if you go in circles, you may visit the same path repeatedly before
+    realizing you should be somewhere else.
+- The number of three-way intersections and number of four-way intersections.
+- The number of elbow cells  (e.g. passage entering from downside (going upwards), then turning either right or left)

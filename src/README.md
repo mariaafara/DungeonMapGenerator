@@ -25,7 +25,7 @@ The environment for this problem is a 2D board.
 
 An agent (the learner and decision maker) is placed somewhere in the maze. This somewhere would be the random generated
 starting point. The agents' goal is to learn a path between the starting point and a treasure (located randomly in the
-maze) i.e. crave a path to reach the treasure, and to also learn a path to reach the end point (randomly generated as
+maze) i.e. create a path to reach the treasure, and to also learn a path to reach the end point (randomly generated as
 well) as quickly as possible.
 
 To learn the paths, the agent moves through the maze in a succession of steps. For every step the agent must decide
