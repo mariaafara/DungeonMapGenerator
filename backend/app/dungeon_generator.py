@@ -1,9 +1,10 @@
 """Module that contains MazeGenerator class."""
+import io
 import random
 from typing import Dict, List, Tuple
 
-from maze import Maze
-from q_learner import QLearner
+from backend.app.maze import Maze
+from backend.app.q_learner import QLearner
 
 
 class MazeGenerator:
@@ -85,7 +86,7 @@ class MazeGenerator:
             actions.append((action, self.curr_cell))
         self.actions = actions
 
-    def generate(self):
+    def generate(self) -> io.BytesIO:
         """Generate the dungeon maze."""
         self.q_learner.learn()
         dir_to_go = self.q_learner.get_dir_to_go()

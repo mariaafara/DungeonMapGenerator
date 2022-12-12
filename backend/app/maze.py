@@ -90,9 +90,9 @@ class Maze:
         ax.plot(self.treasure_point[0] + 0.5, self.treasure_point[1] + 0.5, "b", marker="+", markersize=12)
         ax.plot(self.ending_point[0] + 0.5, self.ending_point[1] + 0.5, "r", marker="o", markersize=12)
         plt.axis('off')
+        buffer = io.BytesIO()  # Save image to BytesIO
+        fig.savefig(buffer, format="png")
         if maze_name:  # if maze_name is provided save the plot to the disk
             fig.savefig(maze_name)
         # store the fig in an i/o buffer and return the buffer
-        buffer = io.BytesIO()
-        fig.savefig(buffer, format="png")
         return buffer

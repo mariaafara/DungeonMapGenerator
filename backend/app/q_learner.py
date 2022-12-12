@@ -4,8 +4,8 @@ from typing import Dict, List, Tuple
 
 from tqdm import tqdm
 
-from board import Board
-from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
+from backend.app.board import Board
+from backend.app.constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
 
 class QLearner:

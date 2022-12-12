@@ -1,7 +1,7 @@
 """Module that contains the Board class."""
 from typing import Tuple
 
-from constants import END_CELL_VALUE, TREASURE_CELL_VALUE
+from backend.app.constants import END_CELL_VALUE, TREASURE_CELL_VALUE
 
 
 class Board:

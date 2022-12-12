@@ -1,4 +1,4 @@
-"""TODO: fill."""
+"""Define constant variables here."""
 
 NUM_EPISODES = 100000
 EPSILON = 0.2
