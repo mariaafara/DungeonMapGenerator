@@ -4,8 +4,8 @@ from typing import Dict, List, Tuple
 
 from tqdm import tqdm
 
-from backend.app.board import Board
-from backend.app.constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
+from .board import Board
+from .constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
 
 class QLearner:
@@ -14,8 +14,14 @@ class QLearner:
     def __init__(self, map_size, starting_point, treasure_point, ending_point):
         """Constructor init."""
         self.q_table = {}  # Maps cell to possible actions. Actions then map to reward
-        self.starting_point, self.ending_point, self.treasure_point = starting_point, ending_point, treasure_point
-        self.board = Board(map_size, self.starting_point, self.treasure_point, self.ending_point)
+        self.starting_point, self.ending_point, self.treasure_point = (
+            starting_point,
+            ending_point,
+            treasure_point,
+        )
+        self.board = Board(
+            map_size, self.starting_point, self.treasure_point, self.ending_point
+        )
         self.init_q_table()
 
     def init_q_table(self):
@@ -54,12 +60,20 @@ class QLearner:
             self.curr_state = self.starting_point
             while not self.board.is_terminal_cell(self.curr_state):
                 action = self.epsilon_greedy(self.curr_state)  # choose an action
-                self.eval_q_function(self.curr_state, action)  # evaluate the optimal value for the current State.
+                self.eval_q_function(
+                    self.curr_state, action
+                )  # evaluate the optimal value for the current State.
                 # go to the next cell which will become the current state
-                self.curr_state = self.board.get_cell_after_action(self.curr_state, action)
-                if self.curr_state == self.ending_point:  # check if end point is reached and set the boolean to True
+                self.curr_state = self.board.get_cell_after_action(
+                    self.curr_state, action
+                )
+                if (
+                    self.curr_state == self.ending_point
+                ):  # check if end point is reached and set the boolean to True
                     self.board.is_end_reached = True
-                if self.curr_state == self.treasure_point:  # check if treasure point is reached and set the boolean to Tr
+                if (
+                    self.curr_state == self.treasure_point
+                ):  # check if treasure point is reached and set the boolean to Tr
                     self.board.is_treasure_reached = True
         print("Finished learning")
         return self.q_table
@@ -87,7 +101,9 @@ class QLearner:
         :param state: coord (x,y) representing a cell
         :return: str: action
         """
-        valid_actions = list(filter(lambda action: self.board.is_valid_cell(state, action), ACTIONS))
+        valid_actions = list(
+            filter(lambda action: self.board.is_valid_cell(state, action), ACTIONS)
+        )
         return random.choice(valid_actions)
 
     def exploit(self, state: Tuple[int, int]) -> str:
@@ -108,15 +124,25 @@ class QLearner:
         The best reward would be Value(new state) plus the maximum value attainable from leaving the new state across all actions
         available from the new state (i.e Actions(next_cell)).
         """
-        next_cell = self.board.get_cell_after_action(coord, action)  # Applies action then gets the cell
-        next_cell_reward = self.board.get_cell_value(next_cell)  # Get the Reward value of the nextCell.
+        next_cell = self.board.get_cell_after_action(
+            coord, action
+        )  # Applies action then gets the cell
+        next_cell_reward = self.board.get_cell_value(
+            next_cell
+        )  # Get the Reward value of the nextCell.
         # get the optimal value of the next state/Cell
         max_q_next_cell = max(
-            [self.q_table[next_cell][action2] for action2 in ACTIONS if self.board.is_valid_cell(next_cell, action2)])
+            [
+                self.q_table[next_cell][action2]
+                for action2 in ACTIONS
+                if self.board.is_valid_cell(next_cell, action2)
+            ]
+        )
 
         # Q(s,a)= Q(s, a) + α⋅[Value(s’)+γ⋅maxQ(s′)−Q(s,a)]
-        self.q_table[coord][action] += (
-                ALPHA * (next_cell_reward + DISCOUNT * max_q_next_cell - self.q_table[coord][action]))
+        self.q_table[coord][action] += ALPHA * (
+            next_cell_reward + DISCOUNT * max_q_next_cell - self.q_table[coord][action]
+        )
 
     def get_dir_to_go(self) -> Dict[Tuple[int, int], List[str]]:
         """Get the direction to go from the filled q_table.

@@ -11,13 +11,14 @@ class Cell:
     A maze "Cell" is a point in the grid which may be surrounded by walls in these directions:
     up, down, left or right.
     """
+
     # A wall separates a pair of cells in the up-down or left-right directions.
-    wall_pairs = {'up': 'down', 'down': 'up', 'right': 'left', 'left': 'right'}
+    wall_pairs = {"up": "down", "down": "up", "right": "left", "left": "right"}
 
     def __init__(self, coord):
         """Initialize the cell at coord = (x,y). At first, it is surrounded by walls."""
         self.coord = coord
-        self.walls = {'up': True, 'down': True, 'right': True, 'left': True}
+        self.walls = {"up": True, "down": True, "right": True, "left": True}
 
     def __str__(self):
         """Define a custom string representation of a cell object.
@@ -42,8 +43,9 @@ class Maze:
         self.starting_point = starting_point  # coordinates of the starting point
         self.ending_point = ending_point
         self.treasure_point = treasure_point
-        self.maze_map = [[Cell((x, y)) for y in range(self.size)] for x in
-                         range(self.size)]  # initialize a maze_map made up of cells of 4 walls.
+        self.maze_map = [
+            [Cell((x, y)) for y in range(self.size)] for x in range(self.size)
+        ]  # initialize a maze_map made up of cells of 4 walls.
 
     def cell_at(self, coord):
         """Return the Cell object at coord (x,y)."""
@@ -58,7 +60,10 @@ class Maze:
         :param actions: List of action and cell tuples e.g. [('left', (2, 2)), ('up', (2, 3)), ('left', (1, 3))]
         """
         current_cell = self.cell_at(self.starting_point)
-        for (next_action, next_cell) in actions:  # next_action is the direction to take from the current cell
+        for (
+            next_action,
+            next_cell,
+        ) in actions:  # next_action is the direction to take from the current cell
             next_cell = self.cell_at(next_cell)
             current_cell.knock_down_wall(next_cell, next_action)
             current_cell = next_cell
@@ -86,10 +91,28 @@ class Maze:
                 if cell.walls["right"]:
                     ax.plot([i + 1, i + 1], [j, j + 1], "k")
         # Mark the start, treasure and end cells with matplotlib markers
-        ax.plot(self.starting_point[0] + 0.5, self.starting_point[1] + 0.5, "g", marker="x", markersize=12)
-        ax.plot(self.treasure_point[0] + 0.5, self.treasure_point[1] + 0.5, "b", marker="+", markersize=12)
-        ax.plot(self.ending_point[0] + 0.5, self.ending_point[1] + 0.5, "r", marker="o", markersize=12)
-        plt.axis('off')
+        ax.plot(
+            self.starting_point[0] + 0.5,
+            self.starting_point[1] + 0.5,
+            "g",
+            marker="x",
+            markersize=12,
+        )
+        ax.plot(
+            self.treasure_point[0] + 0.5,
+            self.treasure_point[1] + 0.5,
+            "b",
+            marker="+",
+            markersize=12,
+        )
+        ax.plot(
+            self.ending_point[0] + 0.5,
+            self.ending_point[1] + 0.5,
+            "r",
+            marker="o",
+            markersize=12,
+        )
+        plt.axis("off")
         if maze_name:  # if maze_name is provided save the plot to the disk
             fig.savefig(maze_name)
         # store the fig in an i/o buffer and return the buffer

@@ -1,18 +1,27 @@
 """Module that contains the Board class."""
 from typing import Tuple
 
-from backend.app.constants import END_CELL_VALUE, TREASURE_CELL_VALUE
+from .constants import END_CELL_VALUE, TREASURE_CELL_VALUE
 
 
 class Board:
     """Our Game environment."""
 
-    def __init__(self, map_size: int, starting_point: Tuple[int, int], treasure_point: Tuple[int, int],
-                 ending_point: Tuple[int, int]):
+    def __init__(
+        self,
+        board_size: int,
+        starting_point: Tuple[int, int],
+        treasure_point: Tuple[int, int],
+        ending_point: Tuple[int, int],
+    ):
         """Constructor init."""
-        self.map_width = map_size
-        self.map_height = map_size
-        self.starting_point, self.ending_point, self.treasure_point = starting_point, ending_point, treasure_point
+        self.map_width = board_size
+        self.map_height = board_size
+        self.starting_point, self.ending_point, self.treasure_point = (
+            starting_point,
+            ending_point,
+            treasure_point,
+        )
         self.cell_values = {}  # Maps cell (x, y) to reward r
 
         self.init_cell_rewards()
@@ -28,7 +37,9 @@ class Board:
 
     def fill_reward_cells(self):
         """Fill the treasure and end cell in the reward dictionary by their constant defined values."""
-        self.cell_values[self.treasure_point[0], self.treasure_point[1]] = TREASURE_CELL_VALUE
+        self.cell_values[
+            self.treasure_point[0], self.treasure_point[1]
+        ] = TREASURE_CELL_VALUE
         self.cell_values[self.ending_point[0], self.ending_point[1]] = END_CELL_VALUE
 
     def is_terminal_cell(self, coord: Tuple[int, int]) -> bool:
@@ -38,7 +49,8 @@ class Board:
         reaching the end_point) are the end states.
         """
         return (coord == self.ending_point and self.is_treasure_reached) or (
-                coord == self.treasure_point and self.is_end_reached)
+            coord == self.treasure_point and self.is_end_reached
+        )
 
     def is_valid_cell(self, coord: Tuple[int, int], action: str) -> bool:
         """Check if the next state after executing an action can still be a valid state.
@@ -55,13 +67,13 @@ class Board:
         action: up (x, y+1), down (x, y-1), left (x-1, y), right (x+1, y)
         """
         x_coord, y_coord = coord
-        if action == 'left':
+        if action == "left":
             x_coord -= 1
-        elif action == 'right':
+        elif action == "right":
             x_coord += 1
-        elif action == 'up':
+        elif action == "up":
             y_coord += 1
-        elif action == 'down':
+        elif action == "down":
             y_coord -= 1
         return x_coord, y_coord
 

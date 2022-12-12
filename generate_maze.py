@@ -1,5 +1,5 @@
 """Main."""
-from backend.app.dungeon_generator import MazeGenerator
+from src.maze_generator import MazeGenerator
 
 if __name__ == '__main__':
     map_size = 6
