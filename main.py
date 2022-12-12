@@ -1,13 +1,11 @@
 """Main."""
-
-from q_learner import QLearner
+from dungeon_generator import MazeGenerator
 
 if __name__ == '__main__':
-    q_learner = QLearner(4, (0, 0), (1, 1), (1, 3))
-    q_learner.learn()
-    qtable = q_learner.q_table
-
-    dir_to_go = q_learner.get_dir_to_go()
-
-    print("*" * 10)
-    print(dir_to_go)
+    map_size = 4
+    maze_generator = MazeGenerator(map_size)
+    maze_generator.generate()
+    print(f"starting_point: {maze_generator.starting_point},"
+          f" treasure_point: {maze_generator.treasure_point}, ending_point: {maze_generator.ending_point}")
+    print("Start from cell: ", maze_generator.starting_point, " then follow the following actions (action, next cell): ")
+    print(maze_generator.actions)
