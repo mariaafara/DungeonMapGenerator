@@ -39,7 +39,7 @@ uvicorn backend.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
 
 ### Build the image
 
-```
+```bash
 docker build -t maze_generator_image .
 ```
 
@@ -47,13 +47,13 @@ docker build -t maze_generator_image .
 
 [//]: # (If you want to specify a port mapping: <host_port>:<container_port>)
 
-```
+```bash
 docker run -d -e PORT=8080 -p 8092:8080 maze_generator_image
 ```
 
 or
 
-```
+```bash
 docker run -p 8080:8080 maze_generator_image
 ```
 
@@ -67,13 +67,33 @@ And you can use `curl` command to query the API and save the image:
 
 ```bash
 curl -X 'POST' \
-  'http://localhost:8092/generate_maze?maze_size=4' \
+  'http://0.0.0.0:8092/generate_maze' \
   -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "maze_size": 4,
+  "alpha": 0.8,
+  "discount": 0.9,
+  "epsilon": 0.2,
+  "num_episodes": 100000
+}' \
+  > output.png
+```
+or
+```bash
+curl -X 'POST' \
+  'http://0.0.0.0:8092/generate_maze' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{"maze_size": 4}' \
   > output.png
 ```
 
-
 ----
+#### Generated maze examples:
+![](images/example_maze_1.png)
+![](images/example_maze_2.png)
+---
 
 #### Evaluating the difficulty of a maze:
 

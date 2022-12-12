@@ -11,7 +11,17 @@ from .constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 class QLearner:
     """Implements Q learning algorithm."""
 
-    def __init__(self, map_size, starting_point, treasure_point, ending_point):
+    def __init__(
+        self,
+        map_size,
+        starting_point,
+        treasure_point,
+        ending_point,
+        alpha=ALPHA,
+        discount=DISCOUNT,
+        epsilon=EPSILON,
+        num_episodes=NUM_EPISODES,
+    ):
         """Constructor init."""
         self.q_table = {}  # Maps cell to possible actions. Actions then map to reward
         self.starting_point, self.ending_point, self.treasure_point = (
@@ -23,6 +33,11 @@ class QLearner:
             map_size, self.starting_point, self.treasure_point, self.ending_point
         )
         self.init_q_table()
+
+        self.alpha = alpha
+        self.discount = discount
+        self.epsilon = epsilon
+        self.num_episodes = num_episodes
 
     def init_q_table(self):
         """Initialize the q_table.
@@ -56,7 +71,7 @@ class QLearner:
            Q(curr_state, action)= Q(curr_state, action) + α⋅[Value(next_state)+γ⋅maxQ(next_state) − Q(curr_state, action)]
            curr_state = next_state
         """
-        for episode in tqdm(range(NUM_EPISODES), desc="Training..."):
+        for episode in tqdm(range(self.num_episodes), desc="Training..."):
             self.curr_state = self.starting_point
             while not self.board.is_terminal_cell(self.curr_state):
                 action = self.epsilon_greedy(self.curr_state)  # choose an action
@@ -89,7 +104,7 @@ class QLearner:
         rand_int = random.random()
         # the epsilon represents how often weu want the agent to choose a random action instead of the action with
         # the maximum result.
-        if rand_int <= EPSILON:
+        if rand_int <= self.epsilon:
             # for epsilon % of the time choose from validActions randomly
             return self.explore(state)
         else:  # choose the most promising value from the Q-table for this state.
@@ -140,8 +155,10 @@ class QLearner:
         )
 
         # Q(s,a)= Q(s, a) + α⋅[Value(s’)+γ⋅maxQ(s′)−Q(s,a)]
-        self.q_table[coord][action] += ALPHA * (
-            next_cell_reward + DISCOUNT * max_q_next_cell - self.q_table[coord][action]
+        self.q_table[coord][action] += self.alpha * (
+            next_cell_reward
+            + self.discount * max_q_next_cell
+            - self.q_table[coord][action]
         )
 
     def get_dir_to_go(self) -> Dict[Tuple[int, int], List[str]]:

@@ -3,6 +3,7 @@ import io
 import random
 from typing import Dict, List, Tuple
 
+from .constants import ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 from .maze import Maze
 from .q_learner import QLearner
 
@@ -10,10 +11,18 @@ from .q_learner import QLearner
 class MazeGenerator:
     """Class MazeGenerator that will generate a dungeon maze."""
 
-    def __init__(self, maze_size, maze_path=None):
+    def __init__(
+        self,
+        maze_size,
+        maze_path=None,
+        alpha=ALPHA,
+        discount=DISCOUNT,
+        epsilon=EPSILON,
+        num_episodes=NUM_EPISODES,
+    ):
         """Initializes a MazeGenerator."""
-        if maze_size < 0:
-            raise ValueError("Maze size should be a strictly positive integer.")
+        if maze_size <= 1:
+            raise ValueError("Maze size should be at least 2.")
         if maze_size > 10:
             raise Warning(
                 "Maze size should better be less than 10. Otherwise the generation would take so much time."
@@ -29,7 +38,14 @@ class MazeGenerator:
         )
 
         self.q_learner = QLearner(
-            self.maze_size, self.starting_point, self.treasure_point, self.ending_point
+            self.maze_size,
+            self.starting_point,
+            self.treasure_point,
+            self.ending_point,
+            alpha,
+            discount,
+            epsilon,
+            num_episodes,
         )
 
         self.is_treasure_reached = False

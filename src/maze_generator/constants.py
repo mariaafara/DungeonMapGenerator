@@ -6,4 +6,4 @@ ACTIONS = ["left", "right", "up", "down"]
 TREASURE_CELL_VALUE = 50
 END_CELL_VALUE = 25
 DISCOUNT = 0.9
-ALPHA = 0.9  # lr
+ALPHA = 0.9  # lr between 0 and 1
