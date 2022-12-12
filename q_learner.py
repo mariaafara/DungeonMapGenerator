@@ -1,12 +1,13 @@
-"""This module TODO: fill."""
+"""Module that includes the QLearner class."""
 import random
+from typing import Tuple
 
 from board import Board
 from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
 
-class QLearner(object):
-    """TODO: fill."""
+class QLearner:
+    """Implements Q learning algorithm."""
 
     def __init__(self, map_size, starting_point, treasure_point, ending_point):
         """Constructor init."""
@@ -61,8 +62,13 @@ class QLearner(object):
         print("Finished learning")
         return self.q_table
 
-    def epsilon_greedy(self, state):
-        """Choose which action to take next (i.e., where to move next)."""
+    def epsilon_greedy(self, state: Tuple[int, int]) -> str:
+        """Choose which action to take next (i.e., where to move next).
+
+        Uses Explore and Exploit.
+        :param state: coord (x,y) representing a cell
+        :return: str: action
+        """
         # if a randomly chosen value between 0 and 1 is less than epsilon, choose a random action
         rand_int = random.random()
         # the epsilon represents how often weu want the agent to choose a random action instead of the action with
@@ -73,20 +79,28 @@ class QLearner(object):
         else:  # choose the most promising value from the Q-table for this state.
             return self.exploit(state)
 
-    def explore(self, state):
-        """Choose a random valid action to go from this state."""
+    def explore(self, state: Tuple[int, int]) -> str:
+        """Choose a random valid action to go from this state.
+
+        :param state: coord (x,y) representing a cell
+        :return: str: action
+        """
         valid_actions = list(filter(lambda action: self.board.is_valid_cell(state, action), ACTIONS))
         return random.choice(valid_actions)
 
-    def exploit(self, state):
-        """Choose the most promising value from the q_table for this state."""
+    def exploit(self, state: Tuple[int, int]) -> str:
+        """Choose the most promising value from the q_table for this state.
+
+        :param state: coord (x,y) representing a cell
+        :return: str: action
+        """
         # Gets all q_values for specified state for all q values
         q_values = {key: val for key, val in self.q_table.items() if key == state}
         # returns action that yields highest q value
         return max(q_values[state], key=q_values[state].get)
 
     # Q(s,a)+=α⋅[r+γ⋅maxαQ(s′)−Q(s,a)]
-    def eval_q_function(self, coord, action):
+    def eval_q_function(self, coord: Tuple[int, int], action: str):
         """Calculates the optimal value for a given state (coord) and action that leads to a new coord (state).
 
         The best reward would be Value(new state) plus the maximum value attainable from leaving the new state across all actions
@@ -103,9 +117,11 @@ class QLearner(object):
                 ALPHA * (next_cell_reward + DISCOUNT * max_q_next_cell - self.q_table[coord][action]))
 
     def get_dir_to_go(self):
-        """Get the direction to go from the filled dir_to_go."""
+        """Get the direction to go from the filled q_table.
+
+        :return: a dictionary: cell as a key, and a list of all its possible actions sorted based on their Q Value.
+        """
         dir_to_go = {}
         for k, v in self.q_table.items():
-            # dir_to_go[k] = max(v, key=v.get)
             dir_to_go[k] = sorted(v, key=v.get, reverse=True)
         return dir_to_go
