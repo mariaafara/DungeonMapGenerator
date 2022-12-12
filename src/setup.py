@@ -16,14 +16,9 @@ setup(
     version="0.0.1",
     author="Maria Afara",
     author_email="maria-afara5@hotmail.com",
-    description="Generate a maze with 3 randomly initialized points.",
+    description="Package to generate a maze with 3 randomly initialized points.",
     packages=find_packages(),
     long_description=read("README.md"),
-    # classifiers=[
-    #     "Development Status :: 3 - Alpha",
-    #     "Topic :: Utilities",
-    #     "License ::",
-    # ],
     install_requires=imports,
     scripts=[],
 )
