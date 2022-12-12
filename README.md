@@ -33,3 +33,29 @@ which action to take. The options are move left, right, up or down.
 
 For this purpose the agent is trained; it learns/fills a QTable which tells what is the best next move to make (Explore
 or Exploit). With every step the agent incurs nothing or/and - when finally reaching the end - a reward.
+
+-----
+
+## Run locally
+
+### Install dependencies
+
+```
+pip install -r backend/requirements.txt
+```
+
+### Run server
+
+```
+uvicorn backend.main:app --reload
+```
+
+#### With a custom port and workers
+
+```
+uvicorn backend.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
+```
+
+### API documentation (provided by Swagger UI)
+
+Access: http://0.0.0.0:8000/docs or http://0.0.0.0:8092/docs if you run the server providing the port 8092 for example.
