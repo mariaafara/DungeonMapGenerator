@@ -3,8 +3,8 @@ import io
 import random
 from typing import Dict, List, Tuple
 
-from backend.app.maze import Maze
-from backend.app.q_learner import QLearner
+from maze import Maze
+from q_learner import QLearner
 
 
 class MazeGenerator:

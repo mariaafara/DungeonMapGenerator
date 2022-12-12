@@ -2,10 +2,9 @@
 import random
 from typing import Dict, List, Tuple
 
+from board import Board
+from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 from tqdm import tqdm
-
-from backend.app.board import Board
-from backend.app.constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
 
 class QLearner:
