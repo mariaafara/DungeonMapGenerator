@@ -2,6 +2,8 @@
 import random
 from typing import Dict, List, Tuple
 
+from tqdm import tqdm
+
 from board import Board
 from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
@@ -48,7 +50,7 @@ class QLearner:
            Q(curr_state, action)= Q(curr_state, action) + α⋅[Value(next_state)+γ⋅maxQ(next_state) − Q(curr_state, action)]
            curr_state = next_state
         """
-        for episode in range(NUM_EPISODES):
+        for episode in tqdm(range(NUM_EPISODES), desc="Training..."):
             self.curr_state = self.starting_point
             while not self.board.is_terminal_cell(self.curr_state):
                 action = self.epsilon_greedy(self.curr_state)  # choose an action
