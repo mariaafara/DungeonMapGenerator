@@ -1,5 +1,6 @@
 """TODO: fill."""
 
+
 class Cell:
     """A cell in the maze.
 
@@ -23,5 +24,9 @@ class Cell:
 class Maze:
     """A Maze, represented as a grid of cells."""
 
-    def __init__(self):
+    def __init__(self, size, starting_point, treasure_point, ending_point):
         """Initialize the maze grid."""
+        self.size = size
+        self.starting_point = starting_point  # coordinates of the starting point
+        self.ending_point = ending_point
+        self.treasure_point = treasure_point
