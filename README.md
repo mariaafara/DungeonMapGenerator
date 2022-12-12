@@ -56,6 +56,31 @@ uvicorn backend.main:app --reload
 uvicorn backend.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
 ```
 
-### API documentation (provided by Swagger UI)
+---
+
+## Run with docker
+
+### Build the image
+
+```
+docker build backend/ -t maze_generator_image
+```
+
+### Run a container
+
+[//]: # (If you want to specify a port mapping: <host_port>:<container_port>)
+```
+docker run -e PORT=8080 -p 8092:8080 maze_generator_image
+```
+
+or
+
+```
+docker run -p 8080:8080 maze_generator_image
+```
+
+----
+
+## API documentation (provided by Swagger UI)
 
 Access: http://0.0.0.0:8000/docs or http://0.0.0.0:8092/docs if you run the server providing the port 8092 for example.
