@@ -68,10 +68,10 @@ class Maze:
             current_cell.knock_down_wall(next_cell, next_action)
             current_cell = next_cell
 
-    def plot(self, maze_name: str = None) -> io.BytesIO:
+    def plot(self, maze_path: str = None) -> io.BytesIO:
         """Plot the maze using matplotlib.
 
-        :param maze_name: str path with the maze name to store the maze.
+        :param maze_path: str path with the maze name to store the maze.
         :return: buffer: maze plot stored in an i/o buffer
         """
         fig, ax = plt.subplots()
@@ -113,8 +113,8 @@ class Maze:
             markersize=12,
         )
         plt.axis("off")
-        if maze_name:  # if maze_name is provided save the plot to the disk
-            fig.savefig(maze_name)
+        if maze_path:  # if maze_path is provided save the plot to the disk
+            fig.savefig(maze_path)
         # store the fig in an i/o buffer and return the buffer
         buffer = io.BytesIO()  # Save image to BytesIO
         fig.savefig(buffer, format="png")

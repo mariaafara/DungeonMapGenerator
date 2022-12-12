@@ -10,7 +10,7 @@ from .q_learner import QLearner
 class MazeGenerator:
     """Class MazeGenerator that will generate a dungeon maze."""
 
-    def __init__(self, maze_size, maze_name=None):
+    def __init__(self, maze_size, maze_path=None):
         """Initializes a MazeGenerator."""
         if maze_size < 0:
             raise ValueError("Maze size should be a strictly positive integer.")
@@ -20,7 +20,7 @@ class MazeGenerator:
             )
 
         self.maze_size = maze_size
-        self.maze_name = maze_name
+        self.maze_path = maze_path
 
         self.starting_point, self.ending_point, self.treasure_point = self.init_points()
 
@@ -119,4 +119,4 @@ class MazeGenerator:
         dir_to_go = self.q_learner.get_dir_to_go()
         self.select_actions(dir_to_go)
         self.maze.make_maze(self.actions)
-        return self.maze.plot(maze_name=self.maze_name)
+        return self.maze.plot(maze_path=self.maze_path)

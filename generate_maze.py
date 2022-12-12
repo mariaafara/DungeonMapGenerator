@@ -3,8 +3,8 @@ from src.maze_generator import MazeGenerator
 
 if __name__ == '__main__':
     map_size = 6
-    maze_name = "generated_maze.png"
-    maze_generator = MazeGenerator(map_size, maze_name)
+    maze_path = "generated_maze.png"
+    maze_generator = MazeGenerator(map_size, maze_path)
     b = maze_generator.generate()
 
     print(f"starting_point: {maze_generator.starting_point},"
