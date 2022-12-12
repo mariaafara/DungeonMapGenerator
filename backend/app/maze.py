@@ -93,6 +93,6 @@ class Maze:
         if maze_name:  # if maze_name is provided save the plot to the disk
             fig.savefig(maze_name)
         # store the fig in an i/o buffer and return the buffer
-        buffer = io.BytesIO()
+        buffer = io.BytesIO()  # Save image to BytesIO
         fig.savefig(buffer, format="png")
         return buffer
