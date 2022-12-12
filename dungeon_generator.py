@@ -1,4 +1,4 @@
-"""Module that contains MazeGenerator."""
+"""Module that contains MazeGenerator class."""
 import random
 from typing import Tuple
 
@@ -7,7 +7,7 @@ from q_learner import QLearner
 
 
 class MazeGenerator:
-    """TODO: fill."""
+    """Class MazeGenerator that will generate a dungeon maze."""
 
     def __init__(self, map_size):
         """Initializes a MazeGenerator."""
@@ -38,31 +38,43 @@ class MazeGenerator:
         ending_point = self.__generate_random_point(chosen_points={starting_point, treasure_point})
         return starting_point, treasure_point, ending_point
 
-    def is_path_complete(self, coord):
+    def is_path_complete(self, coord) -> bool:
         """Check if there is a complete path formed.
 
         A complete path exists only if an ending point is reached such that a treasure point has been reached through
         the way, or the other way around.
+        :param coord: coord (x,y) representing a cell
+        :return: bool
         """
         return (coord == self.ending_point and self.is_treasure_reached) or (
                 coord == self.treasure_point and self.is_end_reached)
 
-    def is_visited_cell(self, coord, visited_cells) -> bool:
+    @staticmethod
+    def is_visited_cell(coord: Tuple[int, int], visited_cells) -> bool:
         """Check if the specified cell (coord) has been visited before (stored in visted_cells list)."""
         return coord in visited_cells
 
     def select_actions(self, dir_to_go) -> None:
-        """Extract a set of actions and their leading cells."""
-        actions = []  # cell as key, action to take as value (the wall between the cell and the next cell that the action take will be removed)
+        """Extract a set of actions and their leading cells.
+
+        It sets the attribute actions: list of tuples (action to take, cell the action leads to)
+        (the wall between a cell and the next cell that the action take will be removed)
+        """
+        actions = []
         self.curr_cell = self.starting_point
-        visited_cells = {(i, j): 0 for i in range(self.map_size) for j in range(self.map_size)}
+        # Initially all grid cells are not visited
+        visited_cells = {(i, j): 0 for i in range(self.map_size) for j in
+                         range(self.map_size)}  # {Cell00: nb_times_visited, ...}
+        # Keep extracting a direction to go from a current cell
+        # as long as a path that connects the 3 random generated points does not exist
         while not self.is_path_complete(self.curr_cell):
             possible_next_actions = dir_to_go[self.curr_cell]
-
+            # if all next cells after going the direction of all possible next actions are visited,
+            # then randomly take a possible next action
             if visited_cells[self.curr_cell] == len(possible_next_actions):
                 action = random.choice(possible_next_actions)
                 self.curr_cell = self.q_learner.board.get_cell_after_action(self.curr_cell, action)
-            else:
+            else:  # take the best action that leads to the least visited cell
                 action, visited_cells[self.curr_cell] = possible_next_actions[visited_cells[self.curr_cell]], \
                                                         visited_cells[self.curr_cell] + 1
                 self.curr_cell = self.q_learner.board.get_cell_after_action(self.curr_cell, action)
