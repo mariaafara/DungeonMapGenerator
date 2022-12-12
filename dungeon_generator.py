@@ -1,6 +1,6 @@
 """Module that contains MazeGenerator class."""
 import random
-from typing import Tuple
+from typing import Dict, List, Tuple
 
 from maze import Maze
 from q_learner import QLearner
@@ -50,11 +50,11 @@ class MazeGenerator:
                 coord == self.treasure_point and self.is_end_reached)
 
     @staticmethod
-    def is_visited_cell(coord: Tuple[int, int], visited_cells) -> bool:
+    def is_visited_cell(coord: Tuple[int, int], visited_cells: Dict[Tuple[int, int], str]) -> bool:
         """Check if the specified cell (coord) has been visited before (stored in visted_cells list)."""
         return coord in visited_cells
 
-    def select_actions(self, dir_to_go) -> None:
+    def select_actions(self, dir_to_go: Dict[Tuple[int, int], List[str]]) -> None:
         """Extract a set of actions and their leading cells.
 
         It sets the attribute actions: list of tuples (action to take, cell the action leads to)

@@ -1,6 +1,6 @@
 """Module that includes the QLearner class."""
 import random
-from typing import Tuple
+from typing import Dict, List, Tuple
 
 from board import Board
 from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
@@ -116,7 +116,7 @@ class QLearner:
         self.q_table[coord][action] += (
                 ALPHA * (next_cell_reward + DISCOUNT * max_q_next_cell - self.q_table[coord][action]))
 
-    def get_dir_to_go(self):
+    def get_dir_to_go(self) -> Dict[Tuple[int, int], List[str]]:
         """Get the direction to go from the filled q_table.
 
         :return: a dictionary: cell as a key, and a list of all its possible actions sorted based on their Q Value.
