@@ -1,10 +1,10 @@
-"""This module TODO: fill."""
+"""Module that contains the Board class."""
 from typing import Tuple
 
 from constants import END_CELL_VALUE, TREASURE_CELL_VALUE
 
 
-class Board(object):
+class Board:
     """Our Game environment."""
 
     def __init__(self, map_size: int, starting_point: Tuple[int, int], treasure_point: Tuple[int, int],
@@ -27,7 +27,7 @@ class Board(object):
         self.fill_reward_cells()
 
     def fill_reward_cells(self):
-        """Filee the treasure and end cell in the reward dictionary by their constant defined values."""
+        """Fill the treasure and end cell in the reward dictionary by their constant defined values."""
         self.cell_values[self.treasure_point[0], self.treasure_point[1]] = TREASURE_CELL_VALUE
         self.cell_values[self.ending_point[0], self.ending_point[1]] = END_CELL_VALUE
 
@@ -48,7 +48,8 @@ class Board(object):
         x_coord, y_coord = self.get_cell_after_action(coord, action)
         return 0 <= x_coord < self.map_width and 0 <= y_coord < self.map_height
 
-    def get_cell_after_action(self, coord: Tuple[int, int], action: str) -> Tuple[int, int]:
+    @staticmethod
+    def get_cell_after_action(coord: Tuple[int, int], action: str) -> Tuple[int, int]:
         """Get the next cell coord after executing an action.
 
         action: up (x, y+1), down (x, y-1), left (x-1, y), right (x+1, y)
@@ -65,12 +66,12 @@ class Board(object):
         return x_coord, y_coord
 
     def get_cell_value(self, coord: Tuple[int, int]) -> int:
-        """Returns the value of a state( represented by its coord).
+        """Get the reward (value) of a cell( represented by its coord).
 
         For example, Value(self.treasure_point) is 50 and Value(self.end_point) is 25 and the Value(cellOther) is 0.
         """
         return self.cell_values[coord]
 
     def get_cells(self):
-        """TODO:fill."""
+        """Get all cells of the grid cell rewards."""
         return self.cell_values.keys()
