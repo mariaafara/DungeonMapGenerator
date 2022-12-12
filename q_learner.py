@@ -1,15 +1,17 @@
 """This module TODO: fill."""
 import random
 
+from board import Board
 from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 
 
 class QLearner(object):
     """TODO: fill."""
-    def __init__(self, board):
+
+    def __init__(self, map_size):
         """Constructor init."""
         self.q_table = {}  # Maps cell to possible actions. Actions then map to reward
-        self.board = board
+        self.board = Board(map_size)
         self.init_q_table()
 
     def init_q_table(self):
