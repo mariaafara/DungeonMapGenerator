@@ -2,8 +2,9 @@
 from dungeon_generator import MazeGenerator
 
 if __name__ == '__main__':
-    map_size = 4
-    maze_generator = MazeGenerator(map_size)
+    map_size = 6
+    maze_name = "generated_maze.png"
+    maze_generator = MazeGenerator(map_size, maze_name)
     maze_generator.generate()
     print(f"starting_point: {maze_generator.starting_point},"
           f" treasure_point: {maze_generator.treasure_point}, ending_point: {maze_generator.ending_point}")
