@@ -1,5 +1,4 @@
 """This module TODO: fill."""
-import random
 from typing import Tuple
 
 from constants import END_CELL_VALUE, TREASURE_CELL_VALUE
@@ -8,29 +7,17 @@ from constants import END_CELL_VALUE, TREASURE_CELL_VALUE
 class Board(object):
     """Our Game environment."""
 
-    def __init__(self, map_size: int):
+    def __init__(self, map_size: int, starting_point: Tuple[int, int], treasure_point: Tuple[int, int],
+                 ending_point: Tuple[int, int]):
         """Constructor init."""
         self.map_width = map_size
         self.map_height = map_size
+        self.starting_point, self.ending_point, self.treasure_point = starting_point, ending_point, treasure_point
         self.cell_values = {}  # Maps cell (x, y) to reward r
-        self.starting_point, self.ending_point, self.treasure_point = self.init_points()
+
         self.init_cell_rewards()
         self.is_treasure_reached = False
         self.is_end_reached = False
-
-    def __generate_random_point(self, chosen_points: set = None) -> Tuple[int, int]:
-        """TODO: fill."""
-        while True:
-            point = (random.randint(0, self.map_width - 1), random.randint(0, self.map_height - 1))
-            if chosen_points is None or point not in chosen_points:
-                return point
-
-    def init_points(self) -> Tuple[Tuple[int, int], Tuple[int, int], Tuple[int, int]]:
-        """Initialize starting point, an ending point and a treasure point."""
-        starting_point = self.__generate_random_point()
-        treasure_point = self.__generate_random_point(chosen_points={starting_point})
-        ending_point = self.__generate_random_point(chosen_points={starting_point, treasure_point})
-        return starting_point, treasure_point, ending_point
 
     def init_cell_rewards(self):
         """Initialize the grid cell rewards, initially each cell reward is filled with 0."""

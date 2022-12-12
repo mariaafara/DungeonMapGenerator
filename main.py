@@ -3,7 +3,7 @@
 from q_learner import QLearner
 
 if __name__ == '__main__':
-    q_learner = QLearner(4)
+    q_learner = QLearner(4, (0, 0), (1, 1), (1, 3))
     q_learner.learn()
     qtable = q_learner.q_table
 

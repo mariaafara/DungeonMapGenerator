@@ -8,10 +8,11 @@ from constants import ACTIONS, ALPHA, DISCOUNT, EPSILON, NUM_EPISODES
 class QLearner(object):
     """TODO: fill."""
 
-    def __init__(self, map_size):
+    def __init__(self, map_size, starting_point, treasure_point, ending_point):
         """Constructor init."""
         self.q_table = {}  # Maps cell to possible actions. Actions then map to reward
-        self.board = Board(map_size)
+        self.starting_point, self.ending_point, self.treasure_point = starting_point, ending_point, treasure_point
+        self.board = Board(map_size, self.starting_point, self.treasure_point, self.ending_point)
         self.init_q_table()
 
     def init_q_table(self):
@@ -47,15 +48,15 @@ class QLearner(object):
            curr_state = next_state
         """
         for episode in range(NUM_EPISODES):
-            self.curr_state = self.board.starting_point
+            self.curr_state = self.starting_point
             while not self.board.is_terminal_cell(self.curr_state):
                 action = self.epsilon_greedy(self.curr_state)  # choose an action
                 self.eval_q_function(self.curr_state, action)  # evaluate the optimal value for the current State.
                 # go to the next cell which will become the current state
                 self.curr_state = self.board.get_cell_after_action(self.curr_state, action)
-                if self.curr_state == self.board.ending_point:  # check if end point is reached and set the boolean to True
+                if self.curr_state == self.ending_point:  # check if end point is reached and set the boolean to True
                     self.board.is_end_reached = True
-                if self.curr_state == self.board.treasure_point:  # check if treasure point is reached and set the boolean to Tr
+                if self.curr_state == self.treasure_point:  # check if treasure point is reached and set the boolean to Tr
                     self.board.is_treasure_reached = True
         print("Finished learning")
         return self.q_table
