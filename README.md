@@ -18,19 +18,23 @@ FastAPI is a cutting-edge, quick web framework for creating APIs.
 ### Install dependencies
 
 ```
-pip install -r backend/requirements.txt
+pip install src/
+```
+
+```
+pip install -r requirements.txt
 ```
 
 ### Run server
 
 ```
-uvicorn backend.main:app --reload
+uvicorn serving.main:app --reload
 ```
 
 #### With a custom port and workers
 
 ```
-uvicorn backend.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
+uvicorn serving.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
 ```
 
 ---
@@ -79,7 +83,9 @@ curl -X 'POST' \
 }' \
   > output.png
 ```
+
 or
+
 ```bash
 curl -X 'POST' \
   'http://0.0.0.0:8092/generate_maze' \
@@ -88,9 +94,38 @@ curl -X 'POST' \
   -d '{"maze_size": 4}' \
   > output.png
 ```
+-----
+
+#### Input parameters:
+
+*maze_size*: represents the (width=maze_size, height=maze_size) of the maze to be generated.
+
+*alpha*: is the learning rate, typically set between 0 and 1. If the alpha value is set to 0, the Q-values are never
+updated,
+consequently, nothing is learned. When the alpha is set to a high value, like 0.9, learning can take place quickly.
+
+*discount*: is the discount factor that should be set between 0 and 1. This illustrates the fact that future rewards are
+worth less than immediate rewards.
+
+*epsilon*: is related to the epsilon-greedy action selection procedure in the Q-learning algorithm. It introduces
+randomness into the algorithm, forcing the algorithm to try different actions. This helps not to get stuck in a local
+optimum. Epsilon is typically chosen as a tiny number close to 0.
+
+*num_episodes*: represents the q learning algorithm training episodes. Running more episodes allows Q table to be
+learned by more trial-and-error interactions with the environment.
 
 ----
+#### Output Response:
+
+A plot of the generated maze (Grid (maze_size*maze_size)) with "x" markers representing the starting point,
+"+" marker representing the treasure point and "o" marker representing the ending point.
+
+---
+
 #### Generated maze examples:
+
+Legend: "x"= starting point, "+": treasure point, "o": end point.
+
 ![](images/example_maze_1.png)
 ![](images/example_maze_2.png)
 ---
@@ -103,8 +138,8 @@ We can evaluate the difficulty of a maze using the following metrics:
 - The number of Forks along the correct path:
     - If the perfect path only has one branch, then you only need to be lucky once.
 - The number of Loops:
-  - Path loops can make a maze more difficult because it is simple to realize that you are on the
-    wrong road when you reach a dead end, but if you go in circles, you may visit the same path repeatedly before
-    realizing you should be somewhere else.
+    - Path loops can make a maze more difficult because it is simple to realize that you are on the
+      wrong road when you reach a dead end, but if you go in circles, you may visit the same path repeatedly before
+      realizing you should be somewhere else.
 - The number of three-way intersections and number of four-way intersections.
 - The number of elbow cells  (e.g. passage entering from downside (going upwards), then turning either right or left)
