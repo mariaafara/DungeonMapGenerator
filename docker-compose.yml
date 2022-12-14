@@ -1,0 +1,30 @@
+version: '3'  # version of docker-compose
+
+services:
+  api_service: # service name
+    build:
+      context: .
+      dockerfile: api.Dockerfile # path to the Dockerfile for the build step
+    ports:
+      - 8092:8080  # map the port 8080(on the container) to the port 8080(on the host)
+    networks:
+      - deploy_network
+#    container_name: maze_generator_api
+
+  ui_service:
+    build:
+      context: .
+      dockerfile: ui.Dockerfile # set the path to the Dockerfile for the build step
+    depends_on:
+      - api_service
+    ports:
+        - 8501:8501
+    environment:
+      PREDICTION_BASE_URL: http://api_service:8092
+    networks:
+      - deploy_network
+#    container_name: ui
+
+networks:
+  deploy_network:
+    driver: bridge
