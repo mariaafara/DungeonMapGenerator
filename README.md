@@ -22,14 +22,17 @@ pip install src/
 ```
 
 ```
-pip install -r requirements.txt
+pip install -r api_requirements.txt
 ```
 
 ### Run server
 
-```
-uvicorn serving.main:app --reload
-```
+[//]: # ()
+[//]: # (```)
+
+[//]: # (uvicorn serving.main:app --reload)
+
+[//]: # (```)
 
 #### With a custom port and workers
 
@@ -55,11 +58,14 @@ docker build -t maze_generator_image .
 docker run -d -e PORT=8080 -p 8092:8080 maze_generator_image
 ```
 
-or
+[//]: # (or)
 
-```bash
-docker run -p 8080:8080 maze_generator_image
-```
+[//]: # ()
+[//]: # (```bash)
+
+[//]: # (docker run -p 8080:8080 maze_generator_image)
+
+[//]: # (```)
 
 ----
 
@@ -119,6 +125,15 @@ learned by more trial-and-error interactions with the environment.
 
 A plot of the generated maze (Grid (maze_size*maze_size)) with "x" markers representing the starting point,
 "+" marker representing the treasure point and "o" marker representing the ending point.
+
+---
+### Run api + ui services:
+
+```bash
+docker-compose up --build
+```
+then
+http://localhost:8501 or http://172.18.10.3:8501/
 
 ---
 
