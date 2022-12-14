@@ -37,7 +37,7 @@ pip install -r api_requirements.txt
 #### With a custom port and workers
 
 ```
-uvicorn serving.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
+uvicorn serving.api_main:app --reload --workers 1 --host 0.0.0.0 --port 8092
 ```
 
 ---
@@ -47,7 +47,7 @@ uvicorn serving.main:app --reload --workers 1 --host 0.0.0.0 --port 8092
 ### Build the image
 
 ```bash
-docker build -t maze_generator_image .
+docker build -t maze_generator_image -f api.Dockerfile .
 ```
 
 ### Run a container
